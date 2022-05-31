@@ -1,0 +1,87 @@
+<!doctype html>
+<html class="rr-root">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="railroad.css" />
+    <style>
+.m pre {
+  margin: 0;
+  padding: 0;
+}
+
+:root { --hover-color: red; }
+@media (prefers-color-scheme: dark) { :root { --hover-color: #F80; } }
+.ex1:hover ~ p .t1 { --rr-color: var(--hover-color); }
+.ex2:hover ~ p .t2 { --rr-color: var(--hover-color); }
+.ex3:hover ~ p .t3 { --rr-color: var(--hover-color); }
+.ex4:hover ~ p .t4 { --rr-color: var(--hover-color); }
+.ex5:hover ~ p .t5 { --rr-color: var(--hover-color); }
+.ex6:hover ~ p .t6 { --rr-color: var(--hover-color); }
+.ex7:hover ~ p .t7 { --rr-color: var(--hover-color); }
+.ex8:hover ~ p .t8 { --rr-color: var(--hover-color); }
+.ex9:hover ~ p .t9 { --rr-color: var(--hover-color); }
+.exA:hover ~ p .tA { --rr-color: var(--hover-color); }
+.exB:hover ~ p .tB { --rr-color: var(--hover-color); }
+.exC:hover ~ p .tC { --rr-color: var(--hover-color); }
+.exD:hover ~ p .tD { --rr-color: var(--hover-color); }
+.exE:hover ~ p .tE { --rr-color: var(--hover-color); }
+
+    </style>
+  </head>
+  <body>
+<h1>Railroad CSS</h1>
+This is still a work in progress. And this documentation needs more work.
+
+<div class="m">
+  <h2>Example: Number</h2>
+
+  <p>Hover an item using the mouse to highlight a part of the railroad.</p>
+
+  <pre>&lt;rr-rr></pre>
+  <pre class="ex1">  &lt;rr-a></pre>
+  <pre class="ex2">    &lt;rr-t data-min="0">"-"&lt;/rr-t></pre>
+  <pre class="ex3">    &lt;rr-o></pre>
+  <pre class="ex4">      &lt;rr-a></pre>
+  <pre class="ex5">        &lt;rr-c>1-9&lt;/rr-c></pre>
+  <pre class="ex6">        &lt;rr-c data-min="0" data-max="inf">0-9&lt;/rr-c></pre>
+  <pre class="ex4">      &lt;/rr-a></pre>
+  <pre class="ex7">      &lt;rr-t>"0"&lt;/rr-t></pre>
+  <pre class="ex3">    &lt;/rr-o></pre>
+  <pre class="ex8">    &lt;rr-a data-min="0"></pre>
+  <pre class="ex9">      &lt;rr-t>"."&lt;/rr-t></pre>
+  <pre class="exA">      &lt;rr-c data-max="inf">0-9&lt;/rr-c></pre>
+  <pre class="ex8">    &lt;/rr-a></pre>
+  <pre class="exB">    &lt;rr-a data-min="0"></pre>
+  <pre class="exC">      &lt;rr-c>Ee&lt;/rr-c></pre>
+  <pre class="exD">      &lt;rr-c data-min="0">+-&lt;/rr-c></pre>
+  <pre class="exE">      &lt;rr-c data-max="inf">0-9&lt;/rr-c></pre>
+  <pre class="exA">    &lt;/rr-a></pre>
+  <pre class="ex1">  &lt;/rr-a></pre>
+  <pre>&lt;/rr-rr></pre>
+
+  <p><rr-rr>
+    <rr-a class="t1">
+      <rr-t class="t2" data-min="0">"-"</rr-t>
+      <rr-o class="t3">
+        <rr-a class="t4">
+          <rr-c class="t5">1-9</rr-c>
+          <rr-c class="t6" data-min="0" data-max="inf">0-9</rr-c>
+        </rr-a>
+        <rr-t class="t7">"0"</rr-t>
+      </rr-o>
+      <rr-a class="t8" data-min="0">
+        <rr-t class="t9">"."</rr-t>
+        <rr-c class="tA" data-max="inf">0-9</rr-c>
+      </rr-a>
+      <rr-a class="tB" data-min="0">
+        <rr-c class="tC">Ee</rr-c>
+        <rr-c class="tD" data-min="0">+-</rr-c>
+        <rr-c class="tE" data-max="inf">0-9</rr-c>
+      </rr-a>
+    </rr-a>
+  </rr-rr></p>
+
+</div>
+
+  </body>
+</html>

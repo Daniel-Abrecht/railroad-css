@@ -1,0 +1,336 @@
+/* For improved anti-aliasing of the otherwise hard-stop radial gradients used for the quarter circle lines */
+@import url('aa.css');
+:root { --aa-factor: (1 / 1); }
+
+/**** Default settings. These can be overwritten as needed. ****/
+:root {
+  --rr-line-size: 0.2em;
+  --rr-radius: 0.6em;
+  --rr-line-height: 1.2;
+  --rr-spacing: 0.8em;
+  --rr-spacing-y: var(--rr-spacing);
+
+  --rr-t-border-width: 0.1em;
+  --rr-t-padding-vertical: 0.1em;
+  --rr-t-padding-horizontal: 0.4em;
+  --rr-lr-loop-outer-margin: var(--rr-spacing-y);
+  --rr-lr-loop-inner-margin: 0px;
+  --rr-lr-alt-margin: var(--rr-spacing);
+
+  --rr-opt-line-spacing-y: var(--rr-spacing-y);
+  --rr-loop-line-spacing-y: var(--rr-spacing-y);
+  --rr-line-top-displacement: (1em * var(--rr-line-height) / 2 + var(--rr-t-border-width) + var(--rr-t-padding-vertical));
+
+  --rr-color-terminal: #F00;
+  --rr-color-rule-ref: #00A;
+  --rr-color-byterange: #0A0;
+  --rr-color: #000;
+  --rr-bgcolor: #fff;
+  --rr-line-color: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.rr-no-dark) {
+    --rr-color-terminal: #FF0;
+    --rr-color-rule-ref: #0FF;
+    --rr-color-byterange: #8F4;
+    --rr-color: #fff;
+    --rr-bgcolor: #000;
+    --rr-line-color: #FFF;
+  }
+}
+
+/**** Overall structure ****/
+
+rr-root {
+  display: table;
+  margin: 0 auto;
+  contain: paint;
+}
+
+rr-root, .rr-root, rr-rr {
+  color: var(--rr-color);
+  background-color: var(--rr-bgcolor);
+  line-height: var(--rr-line-height);
+}
+
+rr-root *, rr-rr * {
+  box-sizing: border-box;
+}
+
+rr-root rr-r {
+  display: table-row;
+}
+
+rr-rr {
+  display: inline-block;
+  contain: paint;
+}
+
+rr-root rr-r > * {
+  display: table-cell;
+  vertical-align: top;
+  padding: 1em;
+}
+
+rr-root rr-r:not(:last-child) > * {
+  border-bottom: 1px dotted;
+}
+
+rr-root rr-n {
+  text-align: right;
+}
+
+/* basic styling */
+
+rr-rr a, rr-rr rr-t, rr-rr rr-c {
+  border: var(--rr-p-border-width) solid;
+  border-radius: 0.25em;
+  white-space: pre;
+  padding: calc(var(--rr-t-padding-vertical)) calc(var(--rr-t-padding-horizontal));
+  background-color: var(--rr-bgcolor);
+  min-height: calc(var(--rr-line-height) * 1em + 2px + 0.2em);
+  text-decoration: none;
+  text-align: center;
+}
+
+rr-rr rr-t, rr-rr rr-c {
+  font-family: monospace,monospace;
+  font-size: calc(1em);
+  color: var(--rr-color-terminal);
+}
+
+rr-rr a {
+  color: var(--rr-color-rule-ref);
+}
+
+rr-rr rr-c {
+  color: var(--rr-color-byterange);
+}
+
+/**** Line primitives, as background ****/
+
+/* Note: we can't use inheritance for these, because we wouldn't be able to override the vars otherwise. */
+rr-rr a, rr-rr rr-t, rr-rr rr-c, rr-rr rr-a, rr-rr rr-o {
+  --rr-bgl-or-top-line:
+    calc(var(--rr-lr-margin) + var(--rr-radius)) -1px / calc(var(--rr-line-size)) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(var(--rr-lr-margin) + var(--rr-radius)) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + -1px) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 100% 0%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+    calc(var(--rr-lr-margin) + 2 * var(--rr-radius) + var(--rr-line-size) + -1px) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-radius)) / calc(100% + -2 * var(--rr-lr-margin) + -4 * var(--rr-radius) + -2 * var(--rr-line-size) + 2px) calc(var(--rr-line-size)) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(-1 * var(--rr-lr-margin) + -1 * var(--rr-radius) + 100%) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + -1px) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 0% 0%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+    calc(-1 * var(--rr-lr-margin) + -1 * var(--rr-radius) + 100%) -1px / calc(var(--rr-line-size)) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+  ;
+  --rr-bgl-top-line:
+    -1px calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-radius)) / calc(100% + 2px) calc(var(--rr-line-size)) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+  ;
+  --rr-bgl-or-side-line-top:
+    calc(var(--rr-lr-margin) + var(--rr-radius)) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + -1px) / calc(var(--rr-line-size)) calc(var(--rr-bgl-opt-line-spacing-y) + var(--rr-p-bgl-side-line-bottom-offset) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(100% + -1 * var(--rr-lr-margin) + -1 * var(--rr-radius)) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + -1px) / calc(var(--rr-line-size)) calc(var(--rr-bgl-opt-line-spacing-y) + var(--rr-p-bgl-side-line-bottom-offset) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+  ;
+  --rr-bgl-side-line-top:
+    calc(var(--rr-lr-margin) + -1px) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-radius)) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 0% 100%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+    calc(var(--rr-lr-margin) + var(--rr-radius)) calc(1.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + 2 * var(--rr-radius) + -1px) / calc(var(--rr-line-size)) calc(var(--rr-bgl-opt-line-spacing-y) + -1 * var(--rr-line-size) + var(--rr-p-bgl-side-line-bottom-offset) + -2 * var(--rr-radius) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(100% + 1px + -1 * var(--rr-lr-margin)) calc(0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-radius)) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 100% 100%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+    calc(100% + -1 * var(--rr-lr-margin) + -1 * var(--rr-radius)) calc(1.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + 2 * var(--rr-radius) + -1px) / calc(var(--rr-line-size)) calc(var(--rr-bgl-opt-line-spacing-y) + -1 * var(--rr-line-size) + var(--rr-p-bgl-side-line-bottom-offset) + -2 * var(--rr-radius) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+  ;
+  --rr-bgl-side-line-bottom:
+    calc(var(--rr-lr-margin) + var(--rr-radius)) calc(var(--rr-bgl-opt-line-spacing-y) + 0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-p-bgl-side-line-bottom-offset) + -1px) / calc(var(--rr-line-size)) calc(100% + -1 * var(--rr-bgl-opt-line-spacing-y) + -0.5 * var(--rr-line-size) + -1 * var(--rr-p-bgl-top-offset) + -1 * var(--rr-p-bgl-side-line-bottom-offset) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(100% + -1 * var(--rr-lr-margin) + -1 * var(--rr-radius)) calc(var(--rr-bgl-opt-line-spacing-y) + 0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-p-bgl-side-line-bottom-offset) + -1px) / calc(var(--rr-line-size)) calc(100% + -1 * var(--rr-bgl-opt-line-spacing-y) + -0.5 * var(--rr-line-size) + -1 * var(--rr-p-bgl-top-offset) + -1 * var(--rr-p-bgl-side-line-bottom-offset) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+  ;
+  --rr-bgl-optional-second-line:
+    calc(var(--rr-lr-margin) + var(--rr-radius)) calc(var(--rr-bgl-opt-line-spacing-y) + 0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + -1px) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 100% 0%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+    calc(var(--rr-lr-margin) + 2 * var(--rr-radius) + var(--rr-line-size) + -1px) calc(var(--rr-bgl-opt-line-spacing-y) + 0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-radius)) / calc(100% + -2 * var(--rr-lr-margin) + -4 * var(--rr-radius) + -2 * var(--rr-line-size) + 2px) calc(var(--rr-line-size)) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(-1 * var(--rr-lr-margin) + -1 * var(--rr-radius) + 100%) calc(var(--rr-bgl-opt-line-spacing-y) + 0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + -1px) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 0% 0%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+  ;
+  --rr-bgl-loop-line:
+    calc(var(--rr-lr-margin) + var(--rr-radius) + var(--rr-lr-loop-margin)) calc(var(--rr-bgl-opt-line-spacing-y) + 0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-radius)) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 100% 100%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+    calc(var(--rr-lr-margin) + var(--rr-radius) + var(--rr-lr-loop-margin)) calc(var(--rr-bgl-opt-line-spacing-y) + 1.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + 2 * var(--rr-radius) + -1px) / calc(var(--rr-line-size)) calc(100% + -3 * var(--rr-radius) + -2.5 * var(--rr-line-size) + -1 * var(--rr-b-loop-margin) + -1 * var(--rr-bgl-opt-line-spacing-y) + -1 * var(--rr-p-bgl-top-offset) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(var(--rr-lr-margin) + var(--rr-radius) + var(--rr-lr-loop-margin)) calc(100% + -1 * var(--rr-b-loop-margin)) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 100% 0%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+    calc(var(--rr-lr-margin) + 2 * var(--rr-radius) + var(--rr-line-size) + var(--rr-lr-loop-margin) + -1px) calc(100% + -1 * var(--rr-b-loop-margin)) / calc(100% + -2 * var(--rr-lr-margin) + -4 * var(--rr-radius) + -2 * var(--rr-line-size) + -2 * var(--rr-lr-loop-margin) + 2px) calc(var(--rr-line-size)) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(-1 * var(--rr-lr-margin) + -1 * var(--rr-radius) + -1 * var(--rr-lr-loop-margin) + 100%) calc(100% + -1 * var(--rr-b-loop-margin)) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 0% 0%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+    calc(-1 * var(--rr-lr-margin) + -1 * var(--rr-radius) + -1 * var(--rr-lr-loop-margin) + 100%) calc(var(--rr-bgl-opt-line-spacing-y) + 1.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + 2 * var(--rr-radius) + -1px) / calc(var(--rr-line-size)) calc(-1 * var(--rr-bgl-opt-line-spacing-y) + -2.5 * var(--rr-line-size) + -1 * var(--rr-p-bgl-top-offset) + -3 * var(--rr-radius) + 100% + -1 * var(--rr-b-loop-margin) + 2px) no-repeat linear-gradient(var(--rr-color),var(--rr-color)),
+    calc(-1 * var(--rr-lr-margin) + -1 * var(--rr-radius) + -1 * var(--rr-lr-loop-margin) + 100%) calc(var(--rr-bgl-opt-line-spacing-y) + 0.5 * var(--rr-line-size) + var(--rr-p-bgl-top-offset) + var(--rr-radius)) / calc(var(--rr-radius) + var(--rr-line-size) + 1px) calc(var(--rr-radius) + var(--rr-line-size) + 1px) no-repeat radial-gradient(circle at 0% 100%,rgba(127,127,127,0) calc(70.71% - 0.5px * var(--aa-factor) - calc(var(--rr-line-size))),var(--rr-color) calc(0.5px * var(--aa-factor) + 70.71% - calc(var(--rr-line-size))),var(--rr-color) calc(70.71% - 0.5px * var(--aa-factor)),rgba(127,127,127,0) calc(70.71% + 0.5px * var(--aa-factor))),
+  ;
+}
+
+rr-rr rr-o > :not(:first-child) {
+  --rr-bgl-top-line: var(--rr-bgl-or-top-line);
+  --rr-bgl-side-line-top: var(--rr-bgl-or-side-line-top);
+}
+
+/**** layout: computations ****/
+
+rr-rr a, rr-rr rr-t, rr-rr rr-c, rr-rr rr-a, rr-rr rr-o {
+  /**
+   * By having multiple custom properties for the marigins,
+   * they become composable. This way, multiple selectors can
+   * individually set one marigin property, without interfering.
+   * 
+   * Please note that the var() in custom properties is resolved
+   * when the custom properties value is computed, and not when
+   * it is resolved later itself using var().
+   **/
+  --rr-p-mt1: 0px;
+  --rr-p-mt-opt-line: 0px;
+  --rr-p-mb-loop-line: 0px;
+  --rr-p-border-width: 0px;
+  --rr-bgl-or-second-overshoot: 0px;
+  --rr-p-ul-bend: 0px;
+  --rr-p-height: (
+      var(--rr-p-border-width) + var(--rr-line-size) / 2 /* How much the line was moved down */
+    + var(--rr-p-t-margin) /* top margin. This is now either at the bottom of the previous element, or it's loop line */
+    + var(--rr-p-prev-loop) /* it's now at the bottom of the previous item */
+  );
+  --rr-p-prev-loop: 0px;
+  --rr-p-t-margin: (var(--rr-p-mt1) + var(--rr-p-mt-opt-line));
+  --rr-p-b-margin: var(--rr-p-mb-loop-line);
+  --rr-p-lr-margin: (var(--rr-p-ul-bend) + var(--rr-lr-loop-margin) + var(--rr-p-lr-loop-inner-margin) + var(--rr-p-lr-alt-margin));
+  --rr-p-bgl-top-offset: (var(--rr-p-height) - var(--rr-bgl-opt-line-spacing-y) + var(--rr-line-top-displacement) - var(--rr-bgl-or-second-overshoot));
+  --rr-bgl-opt-line-spacing-y: 0px;
+  --rr-p-bgl-side-line-bottom-offset: 0px;
+  --rr-lr-loop-margin: 0px;
+  --rr-lr-margin: (0px - var(--rr-radius));
+  --rr-p-lr-loop-inner-margin: 0px;
+  --rr-p-lr-loop-opt-line-consolodation: 0px;
+  --rr-p-lr-alt-margin: 0px;
+  --rr-b-loop-margin: 0px;
+
+  /* To enable any of these background parts / line segments, override like so: --rr-p-<thing>: var(--rr-<thing>); */
+  --rr-p-bgl-side-line-top:;
+  --rr-p-bgl-side-line-bottom:;
+  --rr-p-bgl-optional-second-line:;
+  --rr-p-bgl-loop-line:;
+  --rr-p-bgdef: var(--rr-bgl-top-line) var(--rr-p-bgl-side-line-top) var(--rr-p-bgl-side-line-bottom) var(--rr-p-bgl-optional-second-line) var(--rr-p-bgl-loop-line);
+}
+
+rr-rr [data-min]:not([data-min="0"]):not([data-min="1"]),
+rr-rr [data-max]:not([data-max="0"]):not([data-max="1"]) {
+  --rr-p-lr-loop-inner-margin: var(--rr-lr-loop-inner-margin);
+}
+
+rr-rr rr-a[data-min]:not([data-min="0"]):not([data-min="1"]),
+rr-rr rr-a[data-max]:not([data-max="0"]):not([data-max="1"]),
+rr-rr rr-o[data-min]:not([data-min="0"]):not([data-min="1"]),
+rr-rr rr-o[data-max]:not([data-max="0"]):not([data-max="1"]),
+rr-rr rr-a > [data-min]:not([data-min="0"]):not([data-min="1"]),
+rr-rr rr-a > [data-max]:not([data-max="0"]):not([data-max="1"]) {
+  --rr-p-lr-loop-inner-margin: (var(--rr-radius) + var(--rr-line-size) + var(--rr-lr-loop-inner-margin) - var(--rr-p-lr-loop-opt-line-consolodation));
+}
+
+rr-rr a, rr-rr rr-t, rr-rr rr-c {
+  --rr-p-border-width: var(--rr-t-border-width);
+  --rr-p-lr-alt-margin: var(--rr-lr-alt-margin);
+}
+
+/* All rr-o childs have some spacing between them */
+rr-rr rr-o > :not(:first-child) {
+  /* In the or case, there needs to be some space between the entries */
+  --rr-p-mt1: var(--rr-spacing-y);
+}
+
+rr-rr rr-o > :first-child:not(.opt):not([data-min="0"]) + * {
+  --rr-bgl-or-second-overshoot: (var(--rr-radius) + var(--rr-line-size));
+}
+
+/* For items with optional line, The first rr-o child, and all rr-a items (so all items at the top), needs to be displaced downwards for the optional line to meet the railroad line */
+rr-rr [data-min="0"]:first-child, rr-rr .opt:first-child,
+rr-rr rr-a [data-min="0"], rr-rr rr-a .opt {
+  --rr-p-mt1: var(--rr-line-top-displacement);
+}
+
+/**
+ * This is kind of a hack. --rr-p-ul-bend already contains the space for loop lines,
+ * so we define it for looplines in this special case here, and it'll be overwritten when not needed.
+ * This still isn't quiet right, sometimes some of the outer spece should be inside, but it's too hard to fix.
+ */
+rr-rr rr-o > [data-min]:not([data-min="0"]):not([data-min="1"]):first-child:last-child,
+rr-rr rr-o > [data-max]:not([data-max="0"]):not([data-max="1"]):first-child:last-child {
+  --rr-p-ul-bend: var(--rr-radius);
+}
+
+/* This element always has the top line */
+/* The :not(:root) is just to increase specificity */
+rr-rr [data-min="0"], .opt {
+  /* Optional top line is done using a border image */
+  --rr-p-mt-opt-line: var(--rr-opt-line-spacing-y);
+  --rr-p-bgl-optional-second-line: var(--rr-bgl-optional-second-line);
+  --rr-bgl-opt-line-spacing-y: (var(--rr-line-top-displacement) + var(--rr-opt-line-spacing-y));
+  --rr-p-bgl-side-line-top: var(--rr-bgl-side-line-top);
+  --rr-lr-margin: 0px;
+  --rr-p-ul-bend: (var(--rr-radius) * 2 + var(--rr-line-size));
+  --rr-p-lr-loop-opt-line-consolodation: (var(--rr-radius) + var(--rr-line-size));
+}
+
+rr-rr rr-o > a, rr-rr rr-o > rr-t, rr-rr rr-o > rr-c, rr-rr rr-o > rr-a, rr-rr rr-o > rr-o {
+  /* Inside an rr-o, this margin must be consistent, because it controls the alignment of the line going down. */
+  --rr-lr-margin: 0px;
+  --rr-p-lr-loop-opt-line-consolodation: (var(--rr-radius) + var(--rr-line-size));
+}
+
+rr-rr rr-o > :first-child:not(.opt):not([data-min="0"]) {
+  --rr-p-bgl-side-line-bottom-offset: (var(--rr-line-top-displacement) + var(--rr-radius));
+}
+
+rr-rr rr-o > :not(:first-child:last-child) {
+  --rr-p-bgl-side-line-top: var(--rr-bgl-side-line-top);
+  --rr-p-ul-bend: (var(--rr-radius) * 2 + var(--rr-line-size));
+}
+
+rr-rr rr-o > :not(:last-child) {
+  --rr-p-bgl-side-line-bottom: var(--rr-bgl-side-line-bottom);
+}
+
+/* This element always has the loop line */
+rr-rr [data-min]:not([data-min="0"]):not([data-min="1"]),
+rr-rr [data-max]:not([data-max="0"]):not([data-max="1"]){
+  --rr-p-mb-loop-line: var(--rr-loop-line-spacing-y);
+  --rr-p-bgl-loop-line: var(--rr-bgl-loop-line);
+  --rr-lr-loop-margin: var(--rr-lr-loop-outer-margin);
+}
+
+/* This is helpful for calculating where the previous element's bottom starts */
+rr-rr rr-o > [data-min]:not([data-min="0"]):not([data-min="1"]) + *,
+rr-rr rr-o > [data-max]:not([data-max="0"]):not([data-max="1"]) + * {
+  --rr-p-prev-loop: var(--rr-loop-line-spacing-y);
+}
+
+/**** Layout: application ****/
+
+rr-rr a, rr-rr rr-t, rr-rr rr-c, rr-rr rr-a, rr-rr rr-o {
+  position: relative;
+  margin-top   : calc(var(--rr-p-t-margin));
+  margin-bottom: calc(var(--rr-p-b-margin));
+  margin-left  : calc(var(--rr-p-lr-margin));
+  margin-right : calc(var(--rr-p-lr-margin));
+}
+
+rr-rr rr-a {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+rr-rr rr-o {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+/**** railroad line ****/
+
+rr-rr a::before, rr-rr rr-t::before, rr-rr rr-c::before, rr-rr rr-a::before, rr-rr rr-o::before {
+  position: absolute;
+  display: inline-block;
+  content: '';
+  z-index: -1;
+  background: var(--rr-p-bgdef) rgba(127,127,127,0);
+  box-sizing: border-box;
+  top: calc(0px - var(--rr-p-border-width) - var(--rr-radius) - var(--rr-line-size) - var(--rr-p-height) + var(--rr-bgl-or-second-overshoot));
+  left: calc(0px - var(--rr-p-border-width) - var(--rr-p-lr-margin));
+  right: calc(0px - var(--rr-p-border-width) - var(--rr-p-lr-margin));
+  bottom: calc(0px - var(--rr-p-border-width) - var(--rr-p-b-margin) - var(--rr-line-size) / 2);
+}
+
+rr-rr :empty {
+  display: none;
+}
