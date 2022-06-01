@@ -2,7 +2,7 @@
 <html class="rr-root">
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="railroad.css" />
+    <link rel="stylesheet" type="text/css" href="css/railroad.css" />
     <style>
 .m pre {
   margin: 0;
@@ -31,6 +31,24 @@
   <body>
 <h1>Railroad CSS</h1>
 This is still a work in progress. And this documentation needs more work.
+
+<h2>Tags</h2>
+<table cellspacing="10">
+  <tr><td>&lt;rr-rr></td><td>Every railroad diagram must be inside this tag, and it must immediatly contain an &lt;rr-a> &lt;rr-o> tag. This tag shouldn't be nested.</td></tr>
+  <tr><td>&lt;rr-a></td><td>A "serial" / "and" railroad part. The containing parts are one after another.</td></tr>
+  <tr><td>&lt;rr-o></td><td>A "parallel" / "or" railroad part. The containing parts are stacked, the line goes to and from all of them.</td></tr>
+  <tr><td>&lt;rr-t></td><td>Meant for Terminals (sequences of characters). Shouldn't contain other railroad parts.</td></tr>
+  <tr><td>&lt;rr-c></td><td>Meant for character lists. Shouldn't contain other railroad parts.</td></tr>
+  <tr><td>&lt;a></td><td>Meant for referencing other rules. They're essentially just links, so the href="#rule" attribute can be used as normal.</td></tr>
+</table>
+
+<h2>Attribute &amp; classes</h2>
+<table cellspacing="10">
+  <tr><td>data-min</td><td>A number. Minimum amount of repetitions, can be 0. It won't actually repeat anything. It'll draw an optional line if 0, and a loop line if > 1. The number isn't indicated yet.</td></tr>
+  <tr><td>data-max</td><td>A number or "inf". Maximum amount of repetitions, shouldn't be 0. It won't actually repeat anything. It'll draw a loop line if > 1. The number isn't indicated yet.</td></tr>
+  <tr><td>class="opt"</td><td>Just shows the optional line.</td></tr>
+</table>
+
 
 <div class="m">
   <h2>Example: Number</h2>
