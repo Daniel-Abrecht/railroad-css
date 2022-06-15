@@ -4,9 +4,18 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/railroad.css" />
     <style>
+body {
+  max-width: 60em;
+  margin: auto;
+}
+
 .m pre {
   margin: 0;
   padding: 0;
+}
+
+tr > td:first-child {
+  white-space: nowrap;
 }
 
 :root { --hover-color: red; }
@@ -77,7 +86,7 @@ This is still a work in progress. And this documentation needs more work.
   <pre class="ex1">  &lt;/rr-a></pre>
   <pre>&lt;/rr-rr></pre>
 
-  <p><rr-rr>
+  <p style="text-align: center;"><rr-rr>
     <rr-a class="t1">
       <rr-t class="t2" data-min="0">"-"</rr-t>
       <rr-o class="t3">
@@ -99,6 +108,57 @@ This is still a work in progress. And this documentation needs more work.
     </rr-a>
   </rr-rr></p>
 
+</div>
+
+<div>
+  <h3>Table with Diagrams</h3>
+  There are also a few tags for putting the syntax disgrams in a table &amp; to make sure the names on the left side align nicely with the diagrams on the right.
+  <rr-root>
+    <rr-r id="rr-number">
+      <rr-n>Number</rr-n>
+      <rr-rr>
+        <rr-a>
+          <a href="#rr-integer">Integer</a>
+          <a href="#rr-fraction" data-min="0">Fraction</a>
+          <a href="#rr-exponent" data-min="0">Exponent</a>
+        </rr-a>
+      </rr-rr>
+    </rr-r>
+    <rr-r id="rr-integer">
+      <rr-n>Integer</rr-n>
+      <rr-rr>
+        <rr-a>
+          <rr-t data-min="0">"-"</rr-t>
+          <rr-o>
+            <rr-a>
+              <rr-c>1-9</rr-c>
+              <rr-c data-min="0" data-max="inf">0-9</rr-c>
+            </rr-a>
+            <rr-t>"0"</rr-t>
+          </rr-o>
+        </rr-a>
+      </rr-rr>
+    </rr-r>
+    <rr-r id="rr-fraction">
+      <rr-n>Fraction</rr-n>
+      <rr-rr>
+        <rr-a>
+          <rr-t>"."</rr-t>
+          <rr-c data-max="inf">0-9</rr-c>
+        </rr-a>
+      </rr-rr>
+    </rr-r>
+    <rr-r id="rr-exponent">
+      <rr-n>Exponent</rr-n>
+      <rr-rr>
+        <rr-a>
+          <rr-c>Ee</rr-c>
+          <rr-c data-min="0">+-</rr-c>
+          <rr-c data-max="inf">0-9</rr-c>
+        </rr-a>
+      </rr-rr>
+    </rr-r>
+  </rr-root>
 </div>
 
   </body>
