@@ -7,6 +7,13 @@
 body {
   max-width: 60em;
   margin: auto;
+  margin-bottom: 5em;
+}
+
+/* I'm pretty sure this tag existed at some point but was removed for some reason. */
+nowrap {
+  white-space: nowrap;
+  font-family: monospace;
 }
 
 .m pre {
@@ -86,11 +93,15 @@ tr > td:first-child {
   --rr-color: var(--hover-color);
 }
 
+tr:empty {
+  height: 1.2em;
+}
+
     </style>
   </head>
   <body>
 <h1>Railroad CSS</h1>
-This is still a work in progress. And this documentation needs more work.
+This is still a work in progress.
 
 <h2>Tags</h2>
 <table cellspacing="10">
@@ -162,7 +173,7 @@ This is still a work in progress. And this documentation needs more work.
 </div>
 
 <div>
-  <h3>Table with Diagrams</h3>
+  <h2>Table with Diagrams</h2>
   There are also a few tags for putting the syntax disgrams in a table &amp; to make sure the names on the left side align nicely with the diagrams on the right.
   Those tags are &lt;rr-root> for the table, &lt;rr-r> for the table row, and &lt;rr-n> for the diagram names.
 
@@ -176,7 +187,7 @@ This is still a work in progress. And this documentation needs more work.
     </nav>
 
     <div>
-      <div><rr-root>
+      <div><rr-root style="font-size: 1.4em;">
         <rr-r id="rr-number">
           <rr-n>Number</rr-n>
           <rr-rr>
@@ -276,6 +287,44 @@ This is still a work in progress. And this documentation needs more work.
 &lt;/rr-root></pre>
     </div>
   </div>
+
+<div>
+  <h2>Customization</h2>
+  <h3>Dark Mode</h3>
+  Per default, the diagram has a dark mode used depending on a media query which checks for <nowrap>"prefers-color-scheme:dark"</nowrap>.
+  The dark mode can be disabled by setting the <nowrap>"rr-no-dark"</nowrap> class on the &lt;html> tag.
+
+  <h3>Size</h3>
+  All lines and paddings are specified in "em". Changing the font size will scale the whole diagram.
+
+  <h3>Custom CSS Variables</h3>
+  <!-- TODO: document what they do -->
+  <table>
+    <tr><td>--rr-line-size</td></tr>
+    <tr><td>--rr-radius</td></tr>
+    <tr><td>--rr-line-height</td></tr>
+    <tr><td>--rr-spacing</td></tr>
+    <tr><td>--rr-spacing-y</td></tr>
+    <tr></tr>
+    <tr><td>--rr-t-border-width</td></tr>
+    <tr><td>--rr-t-padding-vertical</td></tr>
+    <tr><td>--rr-t-padding-horizontal</td></tr>
+    <tr><td>--rr-lr-loop-outer-margin</td></tr>
+    <tr><td>--rr-lr-loop-inner-margin</td></tr>
+    <tr><td>--rr-lr-alt-margin</td></tr>
+    <tr></tr>
+    <tr><td>--rr-opt-line-spacing-y</td></tr>
+    <tr><td>--rr-loop-line-spacing-y</td></tr>
+    <tr><td>--rr-line-top-displacement</td></tr>
+    <tr></tr>
+    <tr><td>--rr-color-terminal</td></tr>
+    <tr><td>--rr-color-rule-ref</td></tr>
+    <tr><td>--rr-color-byterange</td></tr>
+    <tr><td>--rr-color</td></tr>
+    <tr><td>--rr-bgcolor</td></tr>
+    <tr><td>--rr-line-color</td></tr>
+  </table>
+</div>
 
 </div>
 
