@@ -10,30 +10,81 @@ body {
 }
 
 .m pre {
+displaz: block;
   margin: 0;
   padding: 0;
+  line-height: 1.3;
 }
 
 tr > td:first-child {
   white-space: nowrap;
 }
 
+.tabs {
+  margin: 1em 0;
+}
+
+.tabs > input[type="radio"], .tabs > div > * {
+  display: none;
+}
+
+.tabs > input[type="radio"], .tabs > div {
+  border: 1px solid;
+  padding: 1em;
+}
+
+.tabs > nav > label {
+  position: relative;
+  top: 1px;
+  margin-top: -1px;
+  background-color: var(--rr-bgcolor);
+  display: inline-block;
+  padding: 0.5em;
+  border: 1px solid #999;
+  border-bottom-color: var(--rr-color);
+  color: var(--rr-color-rule-ref);
+  cursor: pointer;
+}
+
+.tabs > input[type="radio"]:nth-of-type(1):checked ~ div > :nth-child(1),
+.tabs > input[type="radio"]:nth-of-type(2):checked ~ div > :nth-child(2),
+.tabs > input[type="radio"]:nth-of-type(3):checked ~ div > :nth-child(3),
+.tabs > input[type="radio"]:nth-of-type(4):checked ~ div > :nth-child(4),
+.tabs > input[type="radio"]:nth-of-type(5):checked ~ div > :nth-child(5),
+.tabs > input[type="radio"]:nth-of-type(6):checked ~ div > :nth-child(6) {
+  display: unset;
+}
+
+.tabs > input[type="radio"]:nth-of-type(1):checked ~ nav > label:nth-child(1),
+.tabs > input[type="radio"]:nth-of-type(2):checked ~ nav > label:nth-child(2),
+.tabs > input[type="radio"]:nth-of-type(3):checked ~ nav > label:nth-child(3),
+.tabs > input[type="radio"]:nth-of-type(4):checked ~ nav > label:nth-child(4),
+.tabs > input[type="radio"]:nth-of-type(5):checked ~ nav > label:nth-child(5),
+.tabs > input[type="radio"]:nth-of-type(6):checked ~ nav > label:nth-child(6) {
+  border-color: var(--rr-color);
+  border-bottom-color: var(--rr-bgcolor);
+  color: var(--rr-color);
+  cursor: unset;
+}
+
 :root { --hover-color: red; }
 @media (prefers-color-scheme: dark) { :root { --hover-color: #F80; } }
-.ex1:hover ~ p .t1 { --rr-color: var(--hover-color); }
-.ex2:hover ~ p .t2 { --rr-color: var(--hover-color); }
-.ex3:hover ~ p .t3 { --rr-color: var(--hover-color); }
-.ex4:hover ~ p .t4 { --rr-color: var(--hover-color); }
-.ex5:hover ~ p .t5 { --rr-color: var(--hover-color); }
-.ex6:hover ~ p .t6 { --rr-color: var(--hover-color); }
-.ex7:hover ~ p .t7 { --rr-color: var(--hover-color); }
-.ex8:hover ~ p .t8 { --rr-color: var(--hover-color); }
-.ex9:hover ~ p .t9 { --rr-color: var(--hover-color); }
-.exA:hover ~ p .tA { --rr-color: var(--hover-color); }
-.exB:hover ~ p .tB { --rr-color: var(--hover-color); }
-.exC:hover ~ p .tC { --rr-color: var(--hover-color); }
-.exD:hover ~ p .tD { --rr-color: var(--hover-color); }
-.exE:hover ~ p .tE { --rr-color: var(--hover-color); }
+.ex1:hover ~ p .t1,
+.ex2:hover ~ p .t2,
+.ex3:hover ~ p .t3,
+.ex4:hover ~ p .t4,
+.ex5:hover ~ p .t5,
+.ex6:hover ~ p .t6,
+.ex7:hover ~ p .t7,
+.ex8:hover ~ p .t8,
+.ex9:hover ~ p .t9,
+.exA:hover ~ p .tA,
+.exB:hover ~ p .tB,
+.exC:hover ~ p .tC,
+.exD:hover ~ p .tD,
+.exE:hover ~ p .tE {
+  --rr-color: var(--hover-color);
+}
 
     </style>
   </head>
@@ -113,52 +164,119 @@ This is still a work in progress. And this documentation needs more work.
 <div>
   <h3>Table with Diagrams</h3>
   There are also a few tags for putting the syntax disgrams in a table &amp; to make sure the names on the left side align nicely with the diagrams on the right.
-  <rr-root>
-    <rr-r id="rr-number">
-      <rr-n>Number</rr-n>
-      <rr-rr>
-        <rr-a>
-          <a href="#rr-integer">Integer</a>
-          <a href="#rr-fraction" data-min="0">Fraction</a>
-          <a href="#rr-exponent" data-min="0">Exponent</a>
-        </rr-a>
-      </rr-rr>
-    </rr-r>
-    <rr-r id="rr-integer">
-      <rr-n>Integer</rr-n>
-      <rr-rr>
-        <rr-a>
-          <rr-t data-min="0">"-"</rr-t>
-          <rr-o>
+  Those tags are &lt;rr-root> for the table, &lt;rr-r> for the table row, and &lt;rr-n> for the diagram names.
+
+  <div class="tabs">
+    <input type="radio" name="tabs-1" id="tabs-1-1" autocomplete="off" checked />
+    <input type="radio" name="tabs-1" id="tabs-1-2" autocomplete="off" />
+
+    <nav>
+      <label for="tabs-1-1">Diagram</label>
+      <label for="tabs-1-2">Code</label>
+    </nav>
+
+    <div>
+      <div><rr-root>
+        <rr-r id="rr-number">
+          <rr-n>Number</rr-n>
+          <rr-rr>
             <rr-a>
-              <rr-c>1-9</rr-c>
-              <rr-c data-min="0" data-max="inf">0-9</rr-c>
+              <a href="#rr-integer">Integer</a>
+              <a href="#rr-fraction" data-min="0">Fraction</a>
+              <a href="#rr-exponent" data-min="0">Exponent</a>
             </rr-a>
-            <rr-t>"0"</rr-t>
-          </rr-o>
-        </rr-a>
-      </rr-rr>
-    </rr-r>
-    <rr-r id="rr-fraction">
-      <rr-n>Fraction</rr-n>
-      <rr-rr>
-        <rr-a>
-          <rr-t>"."</rr-t>
-          <rr-c data-max="inf">0-9</rr-c>
-        </rr-a>
-      </rr-rr>
-    </rr-r>
-    <rr-r id="rr-exponent">
-      <rr-n>Exponent</rr-n>
-      <rr-rr>
-        <rr-a>
-          <rr-c>Ee</rr-c>
-          <rr-c data-min="0">+-</rr-c>
-          <rr-c data-max="inf">0-9</rr-c>
-        </rr-a>
-      </rr-rr>
-    </rr-r>
-  </rr-root>
+          </rr-rr>
+        </rr-r>
+        <rr-r id="rr-integer">
+          <rr-n>Integer</rr-n>
+          <rr-rr>
+            <rr-a>
+              <rr-t data-min="0">"-"</rr-t>
+              <rr-o>
+                <rr-a>
+                  <rr-c>1-9</rr-c>
+                  <rr-c data-min="0" data-max="inf">0-9</rr-c>
+                </rr-a>
+                <rr-t>"0"</rr-t>
+              </rr-o>
+            </rr-a>
+          </rr-rr>
+        </rr-r>
+        <rr-r id="rr-fraction">
+          <rr-n>Fraction</rr-n>
+          <rr-rr>
+            <rr-a>
+              <rr-t>"."</rr-t>
+              <rr-c data-max="inf">0-9</rr-c>
+            </rr-a>
+          </rr-rr>
+        </rr-r>
+        <rr-r id="rr-exponent">
+          <rr-n>Exponent</rr-n>
+          <rr-rr>
+            <rr-a>
+              <rr-c>Ee</rr-c>
+              <rr-c data-min="0">+-</rr-c>
+              <rr-c data-max="inf">0-9</rr-c>
+            </rr-a>
+          </rr-rr>
+        </rr-r>
+      </rr-root></div>
+
+<pre>&lt;rr-root>
+
+  &lt;rr-r id="rr-number">
+    &lt;rr-n>Number&lt;/rr-n>
+    &lt;rr-rr>
+      &lt;rr-a>
+        &lt;a href="#rr-integer">Integer&lt;/a>
+        &lt;a href="#rr-fraction" data-min="0">Fraction&lt;/a>
+        &lt;a href="#rr-exponent" data-min="0">Exponent&lt;/a>
+      &lt;/rr-a>
+    &lt;/rr-rr>
+  &lt;/rr-r>
+
+  &lt;rr-r id="rr-integer">
+    &lt;rr-n>Integer&lt;/rr-n>
+    &lt;rr-rr>
+      &lt;rr-a>
+        &lt;rr-t data-min="0">"-"&lt;/rr-t>
+        &lt;rr-o>
+          &lt;rr-a>
+            &lt;rr-c>1-9&lt;/rr-c>
+            &lt;rr-c data-min="0" data-max="inf">0-9&lt;/rr-c>
+          &lt;/rr-a>
+          &lt;rr-t>"0"&lt;/rr-t>
+        &lt;/rr-o>
+      &lt;/rr-a>
+    &lt;/rr-rr>
+  &lt;/rr-r>
+
+  &lt;rr-r id="rr-fraction">
+    &lt;rr-n>Fraction&lt;/rr-n>
+    &lt;rr-rr>
+      &lt;rr-a>
+        &lt;rr-t>"."&lt;/rr-t>
+        &lt;rr-c data-max="inf">0-9&lt;/rr-c>
+      &lt;/rr-a>
+    &lt;/rr-rr>
+  &lt;/rr-r>
+
+  &lt;rr-r id="rr-exponent">
+    &lt;rr-n>Exponent&lt;/rr-n>
+    &lt;rr-rr>
+      &lt;rr-a>
+        &lt;rr-c>Ee&lt;/rr-c>
+        &lt;rr-c data-min="0">+-&lt;/rr-c>
+        &lt;rr-c data-max="inf">0-9&lt;/rr-c>
+      &lt;/rr-a>
+    &lt;/rr-rr>
+  &lt;/rr-r>
+
+&lt;/rr-root></pre>
+    </div>
+  </div>
+
 </div>
 
   </body>
