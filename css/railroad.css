@@ -26,7 +26,6 @@
   --rr-color-byterange: #0A0;
   --rr-color: #000;
   --rr-bgcolor: #fff;
-  --rr-line-color: #000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,7 +35,6 @@
     --rr-color-byterange: #8F4;
     --rr-color: #fff;
     --rr-bgcolor: #000;
-    --rr-line-color: #FFF;
   }
 }
 

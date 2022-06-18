@@ -298,31 +298,29 @@ This is still a work in progress.
   All lines and paddings are specified in "em". Changing the font size will scale the whole diagram.
 
   <h3>Custom CSS Variables</h3>
-  <!-- TODO: document what they do -->
-  <table>
-    <tr><td>--rr-line-size</td></tr>
-    <tr><td>--rr-radius</td></tr>
-    <tr><td>--rr-line-height</td></tr>
-    <tr><td>--rr-spacing</td></tr>
-    <tr><td>--rr-spacing-y</td></tr>
+  <table cellspacing="10">
+    <tr><td>--rr-color-terminal</td><td>Color for &lt;rr-t> elements.<td></tr>
+    <tr><td>--rr-color-rule-ref</td><td>Color for &lt;a> elements.<td></tr>
+    <tr><td>--rr-color-byterange</td><td>Color for &lt;rr-c> elements.<td></tr>
+    <tr><td>--rr-color</td><td>The color of the railroad line</td></tr>
+    <tr><td>--rr-bgcolor</td><td>The background color</td></tr>
     <tr></tr>
-    <tr><td>--rr-t-border-width</td></tr>
-    <tr><td>--rr-t-padding-vertical</td></tr>
-    <tr><td>--rr-t-padding-horizontal</td></tr>
-    <tr><td>--rr-lr-loop-outer-margin</td></tr>
-    <tr><td>--rr-lr-loop-inner-margin</td></tr>
-    <tr><td>--rr-lr-alt-margin</td></tr>
+    <tr><td>--rr-line-size</td><td>The size / thickness of the railroad line</td></tr>
+    <tr><td>--rr-radius</td><td>The radius where the railroad line bends</td></tr>
+    <tr><td>--rr-line-height</td><td>This sets the line-height property. It's used whenever the height of some text containign elements has to be calculated.</td></tr>
+    <tr><td>--rr-spacing</td><td>Default for all margins</td></tr>
+    <tr><td>--rr-spacing-y</td><td>Default for vertical margins</td></tr>
     <tr></tr>
-    <tr><td>--rr-opt-line-spacing-y</td></tr>
-    <tr><td>--rr-loop-line-spacing-y</td></tr>
-    <tr><td>--rr-line-top-displacement</td></tr>
+    <tr><td>--rr-t-border-width</td><td>All boxes with a border have this width</td></tr>
+    <tr><td>--rr-t-padding-vertical</td><td>The vertical padding of all the boxes</td></tr>
+    <tr><td>--rr-t-padding-horizontal</td><td>The horizontal padding of all the boxes</td></tr>
+    <tr><td>--rr-lr-loop-inner-margin</td><td>If there is a loop line, this adds extra horizontal space on the inside.</td></tr>
+    <tr><td>--rr-lr-loop-outer-margin</td><td>If there is a loop line, this adds extra horizontal space on the outside.</td></tr>
+    <tr><td>--rr-lr-alt-margin</td><td>Extra spacing for every text box.</td></tr>
     <tr></tr>
-    <tr><td>--rr-color-terminal</td></tr>
-    <tr><td>--rr-color-rule-ref</td></tr>
-    <tr><td>--rr-color-byterange</td></tr>
-    <tr><td>--rr-color</td></tr>
-    <tr><td>--rr-bgcolor</td></tr>
-    <tr><td>--rr-line-color</td></tr>
+    <tr><td>--rr-opt-line-spacing-y</td><td>If there is an optional line, this is the distance to that line.</td></tr>
+    <tr><td>--rr-loop-line-spacing-y</td><td>If there is a loop line, this is the distance to that line.</td></tr>
+    <tr><td>--rr-line-top-displacement</td><td>Where the line meets the box, the default is in the middle.</td></tr>
   </table>
 </div>
 
