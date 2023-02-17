@@ -76,6 +76,11 @@ tr > td:first-child {
 
 :root { --hover-color: red; }
 @media (prefers-color-scheme: dark) { :root { --hover-color: #F80; } }
+
+.m pre {
+  color: var(--rr-color);
+}
+
 .ex1:hover ~ p .t1,
 .ex2:hover ~ p .t2,
 .ex3:hover ~ p .t3,
@@ -90,6 +95,28 @@ tr > td:first-child {
 .exC:hover ~ p .tC,
 .exD:hover ~ p .tD,
 .exE:hover ~ p .tE {
+  --rr-color: var(--hover-color);
+}
+
+:root:has(.ex1:hover) .ex1, :root:has(.ex2:hover) .ex2, :root:has(.ex3:hover) .ex3, :root:has(.ex4:hover) .ex4,
+:root:has(.ex5:hover) .ex5, :root:has(.ex6:hover) .ex6, :root:has(.ex7:hover) .ex7, :root:has(.ex8:hover) .ex8,
+:root:has(.ex9:hover) .ex9, :root:has(.exA:hover) .exA, :root:has(.exB:hover) .exB, :root:has(.exC:hover) .exC,
+:root:has(.exD:hover) .exD, :root:has(.exE:hover) .exE,
+:root:has(.t1:hover):not(:has(.t1 > :hover)) .ex1, :root:has(.t2:hover):not(:has(.t2 > :hover)) .ex2,
+:root:has(.t3:hover):not(:has(.t3 > :hover)) .ex3, :root:has(.t4:hover):not(:has(.t4 > :hover)) .ex4,
+:root:has(.t5:hover):not(:has(.t5 > :hover)) .ex5, :root:has(.t6:hover):not(:has(.t6 > :hover)) .ex6,
+:root:has(.t7:hover):not(:has(.t7 > :hover)) .ex7, :root:has(.t8:hover):not(:has(.t8 > :hover)) .ex8,
+:root:has(.t9:hover):not(:has(.t9 > :hover)) .ex9, :root:has(.tA:hover):not(:has(.tA > :hover)) .exA,
+:root:has(.tB:hover):not(:has(.tB > :hover)) .exB, :root:has(.tC:hover):not(:has(.tC > :hover)) .exC,
+:root:has(.tD:hover):not(:has(.tD > :hover)) .exD, :root:has(.tE:hover):not(:has(.tE > :hover)) .exE,
+.t1:hover:not(:has(>:hover)), .t2:hover:not(:has(>:hover)),
+.t3:hover:not(:has(>:hover)), .t4:hover:not(:has(>:hover)),
+.t5:hover:not(:has(>:hover)), .t6:hover:not(:has(>:hover)),
+.t7:hover:not(:has(>:hover)), .t8:hover:not(:has(>:hover)),
+.t9:hover:not(:has(>:hover)), .tA:hover:not(:has(>:hover)),
+.tB:hover:not(:has(>:hover)), .tC:hover:not(:has(>:hover)),
+.tD:hover:not(:has(>:hover)), .tE:hover:not(:has(>:hover))
+{
   --rr-color: var(--hover-color);
 }
 
@@ -144,7 +171,7 @@ This is still a work in progress.
   <pre class="exC">      &lt;rr-c>Ee&lt;/rr-c></pre>
   <pre class="exD">      &lt;rr-c data-min="0">+-&lt;/rr-c></pre>
   <pre class="exE">      &lt;rr-c data-max="inf">0-9&lt;/rr-c></pre>
-  <pre class="exA">    &lt;/rr-a></pre>
+  <pre class="exB">    &lt;/rr-a></pre>
   <pre class="ex1">  &lt;/rr-a></pre>
   <pre>&lt;/rr-rr></pre>
 
